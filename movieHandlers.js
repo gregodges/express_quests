@@ -62,9 +62,24 @@ const putMovie =(req, res)=>{
     res.status(405).send('method not allowed')
   })
 }
+const deleteMovie = (req,res) => {
+  const { id } = req.params;
+  database
+  .query("DELETE FROM movies WHERE id = ?", id)
+  .then(([result])=>{
+    console.log('movie deleted')
+    res.status(200)
+  })
+  .catch((err)=>{
+    console.log(err)
+    res.status(500).send('erro deleting movie')
+  })
+  
+}
 module.exports = {
   getMovies,
   getMovieById,
   postMovie,
-  putMovie
+  putMovie,
+  deleteMovie
 };

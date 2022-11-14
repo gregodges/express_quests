@@ -60,9 +60,22 @@ const updateUser = (req,res) => {
   })
 
 }
+const deleteUser = (req,res) =>{
+  const {id} = req.params;
+  database
+  .query('DELETE FROM users WHERE id = ?', id)
+  .then((result)=>{
+    res.status(201)
+  })
+  .catch((err)=>{
+    console.log(err)
+    res.status(500)
+  })
+}
 module.exports= {
   getUsers,
   getUsersById,
   postUser,
-  updateUser
+  updateUser,
+  deleteUser
 }
