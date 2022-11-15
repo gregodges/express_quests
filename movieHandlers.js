@@ -1,8 +1,26 @@
 const { sendStatus } = require("express/lib/response");
 const database = require("./database");
 const getMovies = (req, res) => {
+  let sql = "select * from movies ";
+  const sqlValue = [];
+
+  if (req.query.color != null && req.query.duration != null) {
+    sql += "where color = ? AND duration = ?"
+    sqlValue.push(req.query.color, req.query.duration)
+  } else if ( req.query.color != null ){
+    sql += "where color = ?"
+    sqlValue.push(req.query.color)
+  } else if (req.query.duration != null){
+    sql += "where duration < ?"
+    sqlValue.push(req.query.duration)
+  }
+
+  
+
+    
+
   database
-    .query("select * from movies")
+    .query(sql, sqlValue)
     .then(([movies]) => {
       res.json(movies);
     })
